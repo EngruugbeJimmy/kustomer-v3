@@ -7,6 +7,7 @@ const PasswordReset  = require("../models/PasswordReset");
 const { Resend }      = require("resend");
 const auth     = require("../middleware/auth");
 const { logger } = require("../middleware/logger");
+const { authLimiter } = require("../middleware/security");
 const router   = express.Router();
 
 // ── Token generator — never log the output ────────────────────

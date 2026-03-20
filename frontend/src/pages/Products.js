@@ -37,46 +37,62 @@ function ProductModal({ product, onClose, onSaved }) {
   return (
     <div className="fixed inset-0 bg-black/60 z-[60] flex items-end justify-center" onClick={onClose}>
       <div className="bg-white w-full max-w-md rounded-t-3xl p-6 pb-28 overflow-y-auto max-h-[92vh]" onClick={e=>e.stopPropagation()}>
-        <div className="sticky top-0 bg-white pt-4 pb-3 px-6 z-10 border-b border-gray-50">
+        <div className="sticky top-0 bg-white pt-4 pb-3 z-10 border-b border-gray-50">
           <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-3"/>
           <h2 className="font-display text-xl font-bold text-center">{editing?"Edit Product":"Add New Product"}</h2>
         </div>
-        <div className="px-6 pt-4">
-        <label className="block mb-4 cursor-pointer">
-          {preview ? (
-            <div className="relative w-full h-40"><img src={preview} alt="preview" className="w-full h-40 object-cover rounded-2xl border-2 border-kgreen-100"/><div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-lg">Tap to change</div></div>
-          ) : (
-            <div className="w-full h-32 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-2">
-              <span className="text-3xl">📷</span><span className="text-sm text-gray-400 font-medium">Tap to add photo</span>
+        <div className="pt-4">
+          <label className="block mb-4 cursor-pointer">
+            {preview ? (
+              <div className="relative w-full h-40">
+                <img src={preview} alt="preview" className="w-full h-40 object-cover rounded-2xl border-2 border-kgreen-100"/>
+                <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-lg">Tap to change</div>
+              </div>
+            ) : (
+              <div className="w-full h-32 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-2">
+                <span className="text-3xl">📷</span>
+                <span className="text-sm text-gray-400 font-medium">Tap to add photo</span>
+              </div>
+            )}
+            <input type="file" accept="image/*" onChange={handleImage} className="hidden"/>
+          </label>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div>
+              <label className="text-sm font-semibold text-gray-500 mb-1.5 block">Name *</label>
+              <input type="text" placeholder="e.g. Fresh White Bread" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="input" autoFocus/>
             </div>
-          )}
-          <input type="file" accept="image/*" onChange={handleImage} className="hidden"/>
-        </label>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div><label className="text-sm font-semibold text-gray-500 mb-1.5 block">Name *</label>
-            <input type="text" placeholder="e.g. Fresh White Bread" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="input" autoFocus/></div>
-          <div><label className="text-sm font-semibold text-gray-500 mb-1.5 block">Description</label>
-            <input type="text" placeholder="e.g. Freshly baked, large loaf" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} className="input"/></div>
-          <div className="grid grid-cols-3 gap-2">
-            <div><label className="text-sm font-semibold text-gray-500 mb-1.5 block">Currency</label>
-              <select value={form.currency} onChange={e=>setForm({...form,currency:e.target.value})} className="input py-3">
-                {["₦","KSh","GH₵","R","$","€"].map(c=><option key={c}>{c}</option>)}
-              </select></div>
-            <div className="col-span-2"><label className="text-sm font-semibold text-gray-500 mb-1.5 block">Price *</label>
-              <input type="number" inputMode="decimal" placeholder="0.00" min="0" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} className="input"/></div>
-          </div>
-          <div className="card flex items-center justify-between py-3">
-            <div><p className="font-semibold text-gray-700 text-sm">In Stock</p><p className="text-xs text-gray-400">Hidden from catalog when off</p></div>
-            <button type="button" onClick={()=>setForm({...form,inStock:!form.inStock})}
-              className={`w-12 h-6 rounded-full transition-colors ${form.inStock?"bg-kgreen-700":"bg-gray-200"}`}>
-              <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${form.inStock?"translate-x-6":"translate-x-0.5"}`}/>
-            </button>
-          </div>
-          <div className="flex gap-3 pt-2 border-t border-gray-100 sticky bottom-0 bg-white pb-2">
-            <button type="button" onClick={onClose} className="btn-outline">Cancel</button>
-            <button type="submit" className="btn-green" disabled={loading}>{loading?"⏳ Saving...":editing?"Save Changes":"Add Product"}</button>
-          </div>
-        </form>
+            <div>
+              <label className="text-sm font-semibold text-gray-500 mb-1.5 block">Description</label>
+              <input type="text" placeholder="e.g. Freshly baked, large loaf" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} className="input"/>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <label className="text-sm font-semibold text-gray-500 mb-1.5 block">Currency</label>
+                <select value={form.currency} onChange={e=>setForm({...form,currency:e.target.value})} className="input py-3">
+                  {["₦","KSh","GH₵","R","$","€"].map(c=><option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div className="col-span-2">
+                <label className="text-sm font-semibold text-gray-500 mb-1.5 block">Price *</label>
+                <input type="number" inputMode="decimal" placeholder="0.00" min="0" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} className="input"/>
+              </div>
+            </div>
+            <div className="card flex items-center justify-between py-3">
+              <div>
+                <p className="font-semibold text-gray-700 text-sm">In Stock</p>
+                <p className="text-xs text-gray-400">Hidden from catalog when off</p>
+              </div>
+              <button type="button" onClick={()=>setForm({...form,inStock:!form.inStock})}
+                className={`w-12 h-6 rounded-full transition-colors ${form.inStock?"bg-kgreen-700":"bg-gray-200"}`}>
+                <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${form.inStock?"translate-x-6":"translate-x-0.5"}`}/>
+              </button>
+            </div>
+            <div className="flex gap-3 pt-2 border-t border-gray-100 sticky bottom-0 bg-white pb-2">
+              <button type="button" onClick={onClose} className="btn-outline">Cancel</button>
+              <button type="submit" className="btn-green" disabled={loading}>{loading?"⏳ Saving...":editing?"Save Changes":"Add Product"}</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
