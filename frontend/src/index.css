@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,*::before,*::after { box-sizing: border-box }
+
+/* ── Base — mobile first ─────────────────────────────────── */
+html, body, #root { height: 100%; }
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #f0f2f5;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+button, a { -webkit-tap-highlight-color: transparent }
+::-webkit-scrollbar { width: 0 }
+* { scrollbar-width: none }
+
+/* ── Desktop — wrap the app in a dark shell ──────────────── */
+@media (min-width: 769px) {
+  body {
+    background: #0a1f14;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  /* Desktop layout wrapper */
+  .desktop-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* Left branding panel — visible at 1100px+ */
+  .desktop-brand {
+    display: none;
+  }
+
+  /* The app shell — phone on a desk */
+  #root {
+    width: 430px;
+    min-width: 430px;
+    max-width: 430px;
+    min-height: 100vh;
+    background: #f0f2f5;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 24px 80px rgba(0,0,0,0.6),
+      0 8px 32px rgba(0,0,0,0.4);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Bottom nav stays at bottom of shell, not viewport */
+  nav.fixed {
+    position: sticky !important;
+    bottom: 0;
+    z-index: 50;
+  }
+}
+
+/* ── Large desktop — show branding to the left ──────────── */
+@media (min-width: 1100px) {
+  .desktop-brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 56px 60px 40px;
+    min-height: 100vh;
+    width: 340px;
+    flex-shrink: 0;
+  }
+
+  .desktop-brand h1 {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .desktop-brand p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .desktop-brand .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+
+  .desktop-brand .pill span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d4a017;
+    flex-shrink: 0;
+  }
+
+  .desktop-brand .divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(255,255,255,0.15);
+    margin: 28px 0;
+  }
+
+  .desktop-brand .stat {
+    margin-bottom: 16px;
+  }
+
+  .desktop-brand .stat-number {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .desktop-brand .stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+}
+
+/* ── Components ──────────────────────────────────────────── */
+@layer components {
+  .btn-green   { @apply bg-kgreen-700 text-white font-semibold py-4 px-6 rounded-2xl active:scale-95 transition-all w-full text-base shadow-lg disabled:opacity-40 }
+  .btn-gold    { @apply bg-kgold-500 text-kgold-700 font-semibold py-4 px-6 rounded-2xl active:scale-95 transition-all w-full text-base shadow-lg disabled:opacity-40 }
+  .btn-outline { @apply bg-white text-kgreen-700 font-semibold py-4 px-6 rounded-2xl border-2 border-kgreen-700 active:scale-95 transition-all w-full text-base }
+  .card        { @apply bg-white rounded-2xl p-4 shadow-sm border border-gray-100 }
+  .input       { @apply w-full bg-white border-2 border-gray-200 rounded-2xl px-4 py-3.5 text-base focus:outline-none focus:border-kgreen-700 transition-colors placeholder-gray-300 }
+  .page        { @apply min-h-screen flex flex-col bg-[#f0f2f5] }
+  .badge-green  { @apply bg-kgreen-50 text-kgreen-700 text-xs font-bold px-2.5 py-1 rounded-full }
+  .badge-gold   { @apply bg-kgold-50 text-kgold-700 text-xs font-bold px-2.5 py-1 rounded-full }
+  .badge-red    { @apply bg-red-50 text-red-600 text-xs font-bold px-2.5 py-1 rounded-full }
+  .badge-purple { @apply bg-purple-50 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full }
+}
