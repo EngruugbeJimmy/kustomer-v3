@@ -92,7 +92,7 @@ app.use("/api/discover",  require("./routes/discover"));
 app.use("/api/analytics", require("./routes/analytics"));
 app.use("/api/agents",    accountGuard, require("./routes/agents"));
 app.use("/api/agent",     accountGuard, require("./routes/agent"));
-app.use("/api/agent",     auth,         require("./routes/agent"));
+app.use("/api/social",    accountGuard, require("./routes/social"));
 app.use("/api/verify",    require("./routes/verify"));
 
 // ── 11. Health check ──────────────────────────────────────────
