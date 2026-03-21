@@ -194,4 +194,74 @@ Return ONLY the post text, nothing else. No explanations.`;
   } catch (e) { res.status(500).json({ error:"Generation failed: " + e.message }); }
 });
 
+
+// ── POST /api/marketing/social-multi ─────────────────────────
+// Generate captions for multiple platforms in one call — FREE
+router.post("/social-multi", auth, async (req, res) => {
+  try {
+    const { platforms, productId, prompt } = req.body;
+    if (!platforms?.length) return res.status(400).json({ error:"Select at least one platform" });
+
+    let product = null;
+    if (productId) {
+      product = await require("../models/Product").findOne({ _id:productId, owner:req.user._id });
+    }
+
+    const platformStyles = {
+      tiktok:    "TikTok: short punchy hook under 150 chars, ends with call to action and 4-5 trending Nigerian hashtags",
+      instagram: "Instagram: lifestyle tone, 2-3 sentences, ends with 5 relevant hashtags, warm and visual language",
+      facebook:  "Facebook: conversational and friendly, 2-4 sentences, no hashtags needed, ends with WhatsApp order prompt",
+      twitter:   "X/Twitter: under 240 characters, punchy and direct, 1-2 hashtags max",
+      whatsapp:  "WhatsApp Status: short 1-2 sentences max, ends with shop catalog link placeholder [LINK]",
+    };
+
+    const platformInstructions = platforms
+      .filter(p => platformStyles[p])
+      .map(p => `${p}: ${platformStyles[p]}`)
+      .join("\n");
+
+    const shopInfo = `Shop: ${req.user.name}`;
+    const productInfo = product
+      ? `Product: ${product.name} — ${product.currency}${product.price}`
+      : "General shop promotion";
+    const extraPrompt = prompt ? `Direction: ${prompt}` : "";
+
+    const aiPrompt = `You are a social media copywriter for Nigerian small businesses.
+Write captions for these platforms:
+
+${shopInfo}
+${productInfo}
+${extraPrompt}
+
+Platform requirements:
+${platformInstructions}
+
+Return ONLY a JSON object with platform keys and caption values. No markdown, no explanation.
+Example: {"tiktok":"caption here","instagram":"caption here"}
+
+Make all captions feel authentic to Nigerian market culture. Use Naija energy where appropriate.`;
+
+    const axios = require("axios");
+    const aiRes = await axios.post("https://api.anthropic.com/v1/messages", {
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      messages: [{ role:"user", content: aiPrompt }]
+    }, {
+      headers: {
+        "x-api-key":          process.env.ANTHROPIC_API_KEY,
+        "anthropic-version":  "2023-06-01",
+        "content-type":       "application/json"
+      }
+    });
+
+    const raw   = aiRes.data.content[0]?.text || "{}";
+    const clean = raw.replace(/```json|```/g,"").trim();
+    const captions = JSON.parse(clean);
+
+    res.json({ captions, platforms });
+  } catch (e) {
+    res.status(500).json({ error:"Caption generation failed: " + e.message });
+  }
+});
+
 module.exports = router;

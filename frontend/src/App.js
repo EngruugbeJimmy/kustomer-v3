@@ -17,6 +17,9 @@ import Billing        from "./pages/Billing";
 import Reseller       from "./pages/Reseller";
 import AgentDashboard from "./pages/AgentDashboard";
 import ShopAgents     from "./pages/ShopAgents";
+import SocialPost     from "./pages/SocialPost";
+import AIAgent       from "./pages/AIAgent";
+import DailyBrief    from "./pages/DailyBrief";
 import Settings       from "./pages/Settings";
 import Catalog        from "./pages/Catalog";
 import VerifyPhone    from "./pages/VerifyPhone";
@@ -62,6 +65,9 @@ function AppRoutes() {
       <Route path="/reseller"       element={<Protected><Layout><Reseller /></Layout></Protected>} />
       <Route path="/agent"          element={<Protected><Layout><AgentDashboard /></Layout></Protected>} />
       <Route path="/shop-agents"    element={<Protected><Layout><ShopAgents /></Layout></Protected>} />
+      <Route path="/social"          element={<Protected><Layout><SocialPost /></Layout></Protected>} />
+      <Route path="/ai-agent"        element={<Protected><Layout><AIAgent /></Layout></Protected>} />
+      <Route path="/agent"           element={<Protected><Layout><DailyBrief /></Layout></Protected>} />
       <Route path="/settings"       element={<Protected><Layout><Settings /></Layout></Protected>} />
       <Route path="/verify-phone"     element={<Protected><VerifyPhone /></Protected>} />
       <Route path="*"               element={<Navigate to="/" />} />

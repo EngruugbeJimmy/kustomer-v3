@@ -67,12 +67,12 @@ export default function Home() {
 
   const QUICK = [
     { icon:"📦", label:"Products",   action:()=>navigate("/products"),            bg:"bg-kgreen-50",  tc:"text-kgreen-700" },
-    { icon:"📢", label:"Broadcast",  action:()=>navigate("/broadcast"),           bg:"bg-kgold-50",   tc:"text-kgold-700" },
+    { icon:"📢", label:"Broadcast",  action:()=>navigate("/marketing"),           bg:"bg-kgold-50",   tc:"text-kgold-700" },
     { icon:"👥", label:"Customers",  action:()=>navigate("/customers"),           bg:"bg-blue-50",    tc:"text-blue-700" },
     { icon:"🛒", label:"My Shop",    action:()=>window.open("/shop/"+user?.shopSlug,"_blank"), bg:"bg-purple-50", tc:"text-purple-700" },
     { icon:"💳", label:"Plans",      action:()=>navigate("/billing"),             bg:"bg-kgreen-50",  tc:"text-kgreen-700" },
     { icon:"🤝", label:"Reseller",   action:()=>navigate("/reseller"),            bg:"bg-kgold-50",   tc:"text-kgold-700" },
-    { icon:"📊", label:"History",    action:()=>navigate("/broadcast?tab=history"), bg:"bg-gray-100",  tc:"text-gray-600" },
+    { icon:"📊", label:"History",    action:()=>navigate("/marketing?tab=history"), bg:"bg-gray-100",  tc:"text-gray-600" },
     { icon:"⚙️",  label:"Settings",  action:()=>navigate("/settings"),           bg:"bg-gray-100",   tc:"text-gray-600" },
   ];
 

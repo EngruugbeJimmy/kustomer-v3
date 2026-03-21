@@ -60,6 +60,11 @@ router.post("/signup", [
     }
 
     const user = await User.create(data);
+    // Give new users their first daily credits immediately
+    await require("../models/User").findByIdAndUpdate(user._id, {
+      dailyCredits:     10,
+      dailyCreditsDate: new Date(),
+    });
 
     // Log signup (no password logged)
     logger.info("New signup", { userId: user._id, email: user.email });

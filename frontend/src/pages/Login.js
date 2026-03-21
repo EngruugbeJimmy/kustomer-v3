@@ -9,6 +9,7 @@ export default function Login() {
   const [sp]                  = useSearchParams();
   const [form, setForm]       = useState({ email:"", password:"" });
   const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,9 +45,28 @@ export default function Login() {
               value={form.email} onChange={e => setForm({...form, email:e.target.value})} className="input" />
           </div>
           <div>
-            <label className="text-sm font-semibold text-gray-500 mb-1.5 block">Password</label>
-            <input type="password" autoComplete="current-password" placeholder="••••••"
-              value={form.password} onChange={e => setForm({...form, password:e.target.value})} className="input" />
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-sm font-semibold text-gray-500">Password</label>
+              <Link to="/forgot-password" className="text-xs text-kgreen-700 font-semibold">
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                autoComplete="current-password"
+                placeholder="••••••"
+                value={form.password}
+                onChange={e => setForm({...form, password:e.target.value})}
+                className="input pr-16"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(v => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-semibold">
+                {showPass ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
           <button type="submit" className="btn-green mt-2" disabled={loading}>
             {loading ? "⏳ Logging in..." : "Log In"}
