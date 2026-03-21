@@ -47,7 +47,7 @@ function SeoCard({ product, onGenerate, onSave }) {
       setSeo(r.data.seo);
       toast.success("SEO saved!");
       onSave?.();
-    } catch { toast.error("Save failed"); }
+    } catch (err) { toast.error("Save failed"); }
     finally { setSaving(false); }
   };
 

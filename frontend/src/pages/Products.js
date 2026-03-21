@@ -107,8 +107,7 @@ export default function Products() {
 
   const fetch = useCallback(async () => {
     setLoading(true);
-    try { const r = await api.get("/products"); setProducts(r.data.products); }
-    catch { toast.error("Failed to load"); }
+    try { const r = await api.get("/products"); setProducts(r.data.products); } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -121,12 +120,10 @@ export default function Products() {
   };
   const handleDelete = async (id, name) => {
     if (!window.confirm("Delete "+name+"?")) return;
-    try { await api.delete("/products/"+id); setProducts(prev=>prev.filter(p=>p._id!==id)); toast.success("Deleted"); }
-    catch { toast.error("Failed"); }
+    try { await api.delete("/products/"+id); setProducts(prev=>prev.filter(p=>p._id!==id)); toast.success("Deleted"); } catch (err) { toast.error("Failed"); }
   };
   const handleToggle = async (p) => {
-    try { const r = await api.patch("/products/"+p._id, { inStock: !p.inStock }); setProducts(prev=>prev.map(x=>x._id===r.data.product._id?r.data.product:x)); }
-    catch { toast.error("Failed"); }
+    try { const r = await api.patch("/products/"+p._id, { inStock: !p.inStock }); setProducts(prev=>prev.map(x=>x._id===r.data.product._id?r.data.product:x)); } catch (err) { toast.error("Failed"); }
   };
 
   return (

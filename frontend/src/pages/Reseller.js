@@ -21,8 +21,7 @@ export default function Reseller() {
   const referralUrl = data?.resellerCode ? APP_URL + "/signup?ref=" + data.resellerCode : "";
 
   const copyLink = async () => {
-    try { await navigator.clipboard.writeText(referralUrl); setCopied(true); toast.success("Referral link copied!"); setTimeout(()=>setCopied(false),2000); }
-    catch { toast.error("Copy failed"); }
+    try { await navigator.clipboard.writeText(referralUrl); setCopied(true); toast.success("Referral link copied!"); setTimeout(()=>setCopied(false),2000); } catch (err) { toast.error("Copy failed"); }
   };
 
   if (loading) return (

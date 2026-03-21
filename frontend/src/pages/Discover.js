@@ -124,7 +124,7 @@ export default function Discover() {
       const res = await axios.get(API_URL + "/discover/trending");
       setTrending(res.data.trending || []);
       setFeatured(res.data.featured || []);
-    } catch {}
+    } catch (err) {}
     finally { setLoading(false); }
   }, []);
 
@@ -139,7 +139,7 @@ export default function Discover() {
       const res = await axios.get(API_URL + "/discover/search?" + params.toString());
       setShops(res.data.shops || []);
       setTrending(res.data.products || []);
-    } catch {}
+    } catch (err) {}
     finally { setSearching(false); }
   }, []);
 

@@ -55,7 +55,7 @@ export default function AgentDashboard() {
       setCopied(key);
       toast.success("Link copied!");
       setTimeout(() => setCopied(""), 2000);
-    } catch { toast.error("Copy failed"); }
+    } catch (err) { toast.error("Copy failed"); }
   };
 
   const shareLink = (url, shopName) => {

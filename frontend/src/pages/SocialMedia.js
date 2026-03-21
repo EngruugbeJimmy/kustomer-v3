@@ -162,8 +162,11 @@ export default function SocialMedia() {
       ]);
       setPages(pr.data.pages || []);
       setBoosts(br.data.boosts || []);
-    } catch { toast.error("Failed to load"); }
-    finally { setLoading(false)); }
+    } catch (err) {
+      toast.error("Failed to load");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -190,7 +193,7 @@ export default function SocialMedia() {
       await api.delete("/social/disconnect/" + platform);
       toast.success("Disconnected");
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const handleBoost = async (params) => {

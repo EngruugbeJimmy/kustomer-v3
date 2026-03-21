@@ -24,7 +24,7 @@ export default function ShopAgents() {
       const r = await api.get("/agents/shop-dashboard");
       setData(r.data);
       setCommission(r.data.commissionPct || 10);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -40,7 +40,7 @@ export default function ShopAgents() {
       await refresh();
       toast.success("Settings saved!");
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
     finally { setSaving(false); }
   };
 
@@ -50,7 +50,7 @@ export default function ShopAgents() {
       await refresh();
       toast.success(!data?.agentsEnabled ? "Agents enabled! 🎉" : "Agents paused");
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const generateInvite = async () => {
@@ -65,8 +65,7 @@ export default function ShopAgents() {
   };
 
   const copyInvite = async () => {
-    try { await navigator.clipboard.writeText(inviteUrl); setCopied(true); toast.success("Copied!"); setTimeout(() => setCopied(false), 2000); }
-    catch { toast.error("Copy failed"); }
+    try { await navigator.clipboard.writeText(inviteUrl); setCopied(true); toast.success("Copied!"); setTimeout(() => setCopied(false), 2000); } catch (err) { toast.error("Copy failed"); }
   };
 
   const loadReport = async (agent) => {
@@ -74,7 +73,7 @@ export default function ShopAgents() {
     try {
       const r = await api.get("/agents/sales-report/" + agent._id);
       setReportData(r.data);
-    } catch { toast.error("Failed to load report"); }
+    } catch (err) { toast.error("Failed to load report"); }
   };
 
   const markPaid = async (saleIds) => {
@@ -83,7 +82,7 @@ export default function ShopAgents() {
       toast.success("Commission marked as paid! ✅");
       loadReport(selectedAgent);
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const removeAgent = async (agentShopId, name) => {
@@ -94,7 +93,7 @@ export default function ShopAgents() {
       setSelectedAgent(null);
       setReportData(null);
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   if (loading) return (

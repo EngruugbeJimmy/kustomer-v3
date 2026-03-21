@@ -7,8 +7,6 @@ import { useAuth } from "../context/AuthContext";
 
 const APP_URL = process.env.REACT_APP_URL || window.location.origin;
 
-const PLAN_ORDER = { free:0, starter:1, pro:2, business:3 };
-
 export default function Marketing() {
   const { user, refresh }               = useAuth();
   const navigate                        = useNavigate();
@@ -30,9 +28,7 @@ export default function Marketing() {
   const [selectedProduct, setSelectedProduct] = useState("");
 
   const catalogUrl = APP_URL + "/shop/" + user?.shopSlug;
-  const userPlanLevel = PLAN_ORDER[user?.plan || "free"];
   const currentChannel = CHANNELS.find(c => c.id === channel);
-  const channelLocked = PLAN_ORDER[currentChannel?.plan || "free"] > userPlanLevel;
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -45,7 +41,7 @@ export default function Marketing() {
       setCustomers(cr.data.customers);
       setHistory(hr.data.campaigns || []);
       setProducts(pr.data.products || []);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -94,7 +90,7 @@ export default function Marketing() {
         toast.success("Sent to " + recipientList.length + " customers! 🎉");
         await fetchData();
         setMessage(""); setSelected(new Set()); setSelectAll(false);
-      } catch { toast.error("Something went wrong"); }
+      } catch (err) { toast.error("Something went wrong"); }
       finally { setSending(false); setProgress({ current:0, total:0 }); }
 
     } else if (channel === "status") {
@@ -173,19 +169,16 @@ export default function Marketing() {
             <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Choose Channel</p>
             <div className="grid grid-cols-4 gap-2">
               {CHANNELS.map(ch => {
-                const locked = PLAN_ORDER[ch.plan] > userPlanLevel;
                 const active = channel === ch.id;
                 return (
                   <button key={ch.id}
                     onClick={() => { setChannel(ch.id); setGeneratedPost(""); setMessage(""); }}
                     className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl border-2 transition-all active:scale-95
-                      ${active ? "border-kgreen-700 bg-kgreen-50" : "border-gray-100 bg-white"}
-                      ${locked ? "opacity-60" : ""}`}>
+                      ${active ? "border-kgreen-700 bg-kgreen-50" : "border-gray-100 bg-white"}`}>
                     <div className={`w-9 h-9 rounded-xl ${ch.color} flex items-center justify-center`}>
-                      <span className="text-xl">{locked ? "🔒" : ch.icon}</span>
+                      <span className="text-xl">{ch.icon}</span>
                     </div>
                     <span className={`text-[9px] font-bold leading-tight text-center ${active ? ch.tc : "text-gray-500"}`}>{ch.label}</span>
-                    {locked && <span className="text-[8px] text-gray-400 capitalize">{ch.plan}+</span>}
                   </button>
                 );
               })}
@@ -193,20 +186,8 @@ export default function Marketing() {
             <p className="text-xs text-gray-400 mt-2 text-center italic">{CHANNEL_HINT[channel]}</p>
           </div>
 
-          {/* Locked channel upgrade prompt */}
-          {channelLocked && (
-            <div className="card bg-amber-50 border-amber-200 flex items-center gap-3">
-              <span className="text-2xl">🔒</span>
-              <div className="flex-1">
-                <p className="font-bold text-amber-800 text-sm">{currentChannel?.label} requires {currentChannel?.plan} plan</p>
-                <p className="text-xs text-amber-600 mt-0.5">Upgrade to unlock SMS, Email, TikTok, Facebook & Instagram</p>
-              </div>
-              <button onClick={() => navigate("/billing")} className="bg-amber-500 text-white text-xs font-bold px-3 py-2 rounded-xl">Upgrade</button>
-            </div>
-          )}
-
           {/* AI Social channels */}
-          {isSocialAI && !channelLocked && (
+          {isSocialAI && (
             <>
               <div>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Select Product (optional)</p>

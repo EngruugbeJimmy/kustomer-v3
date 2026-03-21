@@ -143,7 +143,7 @@ function FollowUpCard({ followUp, onMarkSent }) {
     try {
       await onMarkSent(followUp._id);
       setSent(true);
-    } catch {}
+    } catch (err) {}
   };
 
   return (
@@ -190,7 +190,7 @@ export default function AIAgent() {
     try {
       const r = await api.get("/agent/today");
       setData(r.data);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -213,7 +213,7 @@ export default function AIAgent() {
       await api.post("/agent/briefing/" + data.briefing._id + "/skip");
       toast("Skipped for today");
       fetchData();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const handleRegenerate = async () => {
@@ -233,7 +233,7 @@ export default function AIAgent() {
     try {
       await api.patch("/agent/briefing/" + data.briefing._id, edits);
       fetchData();
-    } catch { toast.error("Save failed"); }
+    } catch (err) { toast.error("Save failed"); }
   };
 
   const handleMarkSent = async (id) => {

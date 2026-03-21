@@ -15,8 +15,7 @@ export default function Settings() {
 
   const handleSave = async (e) => {
     e.preventDefault(); setLoading(true);
-    try { await api.patch("/auth/shop", form); await refresh(); toast.success("Settings saved!"); }
-    catch { toast.error("Save failed"); }
+    try { await api.patch("/auth/shop", form); await refresh(); toast.success("Settings saved!"); } catch (err) { toast.error("Save failed"); }
     finally { setLoading(false); }
   };
 

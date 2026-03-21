@@ -63,7 +63,7 @@ export default function SocialPost() {
       setCopied(key);
       toast.success("Copied!");
       setTimeout(() => setCopied(""), 2000);
-    } catch { toast.error("Copy failed"); }
+    } catch (err) { toast.error("Copy failed"); }
   };
 
   const shareCaption = (key, text) => {

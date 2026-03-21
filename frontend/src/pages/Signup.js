@@ -82,7 +82,7 @@ export async function checkShopNameSimilarity(name, api) {
   try {
     const res = await api.post("/verify/check-name", { name });
     return res.data; // { ok, warning, message, similar }
-  } catch {
+  } catch (err) {
     return { ok: true }; // fail open — don't block signup on check failure
   }
 }

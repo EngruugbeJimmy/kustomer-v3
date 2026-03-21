@@ -184,7 +184,7 @@ export default function Customers() {
       ]);
       setCustomers(cr.data.customers);
       setStats(sr.data.customers);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -200,7 +200,7 @@ export default function Customers() {
       await api.delete("/customers/" + id);
       setCustomers(prev => prev.filter(c => c._id !== id));
       toast.success("Removed");
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const initials = n => n.split(" ").map(x => x[0]).join("").toUpperCase().slice(0,2);

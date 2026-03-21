@@ -26,7 +26,7 @@ export default function DailyBrief() {
     try {
       const r = await api.get("/agent/brief/today");
       setData(r.data);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -65,7 +65,7 @@ export default function DailyBrief() {
       await api.post("/agent/brief/skip", { briefId: data.brief._id });
       toast("Skipped today's brief");
       fetchToday();
-    } catch { toast.error("Failed"); }
+    } catch (err) { toast.error("Failed"); }
   };
 
   const getContent = (key) => edits[key] !== undefined ? edits[key] : data?.brief?.[key] || "";

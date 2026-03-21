@@ -52,14 +52,13 @@ export default function Home() {
         ]);
         setStats({ customers: cc.data.count, products: pc.data.products.length, messages: mh.data.messages.length });
         setHistory(mh.data.messages.slice(0,3) || []);
-      } catch {}
+      } catch (err) {}
       finally { setLoading(false); }
     })();
   }, []);
 
   const copyLink = async () => {
-    try { await navigator.clipboard.writeText(catalogUrl); setCopied(true); toast.success("Link copied!"); setTimeout(()=>setCopied(false),2000); }
-    catch { toast.error("Copy failed"); }
+    try { await navigator.clipboard.writeText(catalogUrl); setCopied(true); toast.success("Link copied!"); setTimeout(()=>setCopied(false),2000); } catch (err) { toast.error("Copy failed"); }
   };
   const shareLink = () => navigator.share ? navigator.share({ title: user?.name + " on Kustomer", url: catalogUrl }) : copyLink();
 

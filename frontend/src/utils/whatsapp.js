@@ -24,13 +24,13 @@ export const TEMPLATES = [
 
 // Channel configs for Marketing page
 export const CHANNELS = [
-  { id:"whatsapp", icon:"💬", label:"WhatsApp",       color:"bg-green-50",   tc:"text-green-700",  plan:"free",     desc:"Broadcast to customers" },
-  { id:"status",   icon:"🟢", label:"WA Status",      color:"bg-green-50",   tc:"text-green-700",  plan:"free",     desc:"Post to WhatsApp Status" },
-  { id:"sms",      icon:"📱", label:"SMS",            color:"bg-blue-50",    tc:"text-blue-700",   plan:"starter",  desc:"Reach non-WhatsApp users" },
-  { id:"email",    icon:"📧", label:"Email",          color:"bg-purple-50",  tc:"text-purple-700", plan:"starter",  desc:"Send email campaigns" },
-  { id:"tiktok",   icon:"🎵", label:"TikTok",         color:"bg-pink-50",    tc:"text-pink-700",   plan:"starter",  desc:"AI caption generator" },
-  { id:"facebook", icon:"📘", label:"Facebook",       color:"bg-blue-50",    tc:"text-blue-700",   plan:"starter",  desc:"AI post generator" },
-  { id:"instagram",icon:"📸", label:"Instagram",      color:"bg-orange-50",  tc:"text-orange-600", plan:"starter",  desc:"AI caption generator" },
+  { id:"whatsapp", icon:"💬", label:"WhatsApp",       color:"bg-green-50",   tc:"text-green-700",  plan:"free", desc:"Broadcast to customers" },
+  { id:"status",   icon:"🟢", label:"WA Status",      color:"bg-green-50",   tc:"text-green-700",  plan:"free", desc:"Post to WhatsApp Status" },
+  { id:"sms",      icon:"📱", label:"SMS",            color:"bg-blue-50",    tc:"text-blue-700",   plan:"free", desc:"Reach non-WhatsApp users" },
+  { id:"email",    icon:"📧", label:"Email",          color:"bg-purple-50",  tc:"text-purple-700", plan:"free", desc:"Send email campaigns" },
+  { id:"tiktok",   icon:"🎵", label:"TikTok",         color:"bg-pink-50",    tc:"text-pink-700",   plan:"free", desc:"AI caption generator" },
+  { id:"facebook", icon:"📘", label:"Facebook",       color:"bg-blue-50",    tc:"text-blue-700",   plan:"free", desc:"AI post generator" },
+  { id:"instagram",icon:"📸", label:"Instagram",      color:"bg-orange-50",  tc:"text-orange-600", plan:"free", desc:"AI caption generator" },
 ];
 
 // Track order initiation before opening WhatsApp

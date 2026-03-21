@@ -12,7 +12,7 @@ export default function Orders() {
     try {
       const r = await api.get("/analytics/pending-orders");
       setOrders(r.data.orders || []);
-    } catch { toast.error("Failed to load orders"); }
+    } catch (err) { toast.error("Failed to load orders"); }
     finally { setLoading(false); }
   }, []);
 

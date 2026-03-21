@@ -56,7 +56,7 @@ export default function YouTube() {
       setStatus(sr.data);
       setJobs(sr.data.jobs || []);
       setProducts(pr.data.products || []);
-    } catch { toast.error("Failed to load"); }
+    } catch (err) { toast.error("Failed to load"); }
     finally { setLoading(false); }
   }, []);
 
@@ -78,8 +78,7 @@ export default function YouTube() {
 
   const disconnectYouTube = async () => {
     if (!window.confirm("Disconnect YouTube?")) return;
-    try { await api.post("/youtube/disconnect"); await refresh(); fetchAll(); toast.success("Disconnected"); }
-    catch { toast.error("Failed"); }
+    try { await api.post("/youtube/disconnect"); await refresh(); fetchAll(); toast.success("Disconnected"); } catch (err) { toast.error("Failed"); }
   };
 
   // Step 1: Generate script
@@ -132,8 +131,7 @@ export default function YouTube() {
   const resetFlow = () => { setStep(1); setCurrentJob(null); setSlides([]); setPrompt(""); setSelectedProduct(""); };
 
   const deleteJob = async (jobId) => {
-    try { await api.delete("/youtube/jobs/" + jobId); fetchAll(); toast.success("Deleted"); }
-    catch { toast.error("Failed"); }
+    try { await api.delete("/youtube/jobs/" + jobId); fetchAll(); toast.success("Deleted"); } catch (err) { toast.error("Failed"); }
   };
 
   if (loading) return (
